@@ -3,19 +3,18 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
-
-// const getEnv = async () => {
-//   const response = await axios.get('/비밀키요청 API')
-//   return {
-//     DB_PASSWORD:response,
-//     NAME:'DB_NAME'
-//   }
-// }
+import { UsersModule } from './users/users.module';
+import { DmsService } from './dms/dms.service';
+import { DmsController } from './dms/dms.controller';
+import { DmsModule } from './dms/dms.module';
+import { ChannelsController } from './channels/channels.controller';
+import { ChannelsModule } from './channels/channels.module';
+import { UsersService } from './users/users.service';
 
 @Module({
-  imports: [ConfigModule.forRoot({isGlobal:true,load:[]})],
-  controllers: [AppController],
-  providers: [AppService,ConfigService],
+  imports: [ConfigModule.forRoot({isGlobal:true,load:[]}), UsersModule, DmsModule, ChannelsModule],
+  controllers: [AppController, DmsController, ChannelsController],
+  providers: [AppService,ConfigService,UsersService, DmsService],
 })
 
 export class AppModule implements NestModule {
