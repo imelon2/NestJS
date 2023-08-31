@@ -1,9 +1,12 @@
-import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res, UseInterceptors } from '@nestjs/common';
 import { JoinRequestDto } from './dto/join.request.dto';
 import { UsersService } from './users.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UserDto } from 'src/common/dto/user.dto';
+import { User } from 'src/common/decorators/user.decorators';
+import { UndefinedToNullInterceptor } from 'src/interceptors/undefinedToNull.interceptors';
 
+// @UseInterceptors(UndefinedToNullInterceptor)
 @Controller('api/users')
 export class UsersController {
     constructor(private usersService : UsersService) {
@@ -16,8 +19,8 @@ export class UsersController {
         type:UserDto
     })
     @Get()
-    getUsers(@Req() req) {
-        return req.user;
+    getUsers(@User() user) {
+        return user;
     }
 
     // [POST] users/
